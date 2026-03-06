@@ -48,7 +48,7 @@ Restart the client. The tools listed below will be available to the agent.
 
 ## Tools
 
-### `list_create`
+### `create_list`
 
 Create a named list to group todos under.
 

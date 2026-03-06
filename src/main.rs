@@ -78,7 +78,7 @@ impl CraneMcp {
 impl CraneMcp {
     // ── List tools ────────────────────────────────────────────────────────────
 
-    #[tool(description = "Create a new list (e.g. Today, Inbox, Tomorrow)")]
+    #[tool(name = "create_list", description = "Create a new list (e.g. Today, Inbox, Tomorrow)")]
     async fn list_create(&self, Parameters(p): Parameters<CreateListParams>) -> String {
         match self.todo_db.lock().unwrap().create_list(&p.title) {
             Ok(id) => format!("Created list #{id}: {}", p.title),
