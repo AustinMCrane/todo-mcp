@@ -1,4 +1,4 @@
-# crane-mcp
+# todo-mcp
 
 An MCP server for managing todos and lists. It gives your AI agent a persistent, structured task list it can read and update during a session. You keep a running list of things to do, your agent has context on them, and you stay focused without switching apps or breaking flow.
 
@@ -7,7 +7,7 @@ Use cases:
 - Review what you completed at the end of a session
 - Stay in the terminal and stay focused on the work, not on managing the list
 
-Data is stored in a local SQLite database at `~/.crane-mcp/todos.db`.
+Data is stored in a local SQLite database at `~/.todo-mcp/todos.db`.
 
 ---
 
@@ -26,15 +26,15 @@ Build the binary:
 cargo build --release
 ```
 
-The binary will be at `./target/release/crane-mcp`.
+The binary will be at `./target/release/todo-mcp`.
 
 Add it to your MCP client configuration. For Claude Desktop, edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
-    "crane-mcp": {
-      "command": "/absolute/path/to/crane-mcp"
+    "todo-mcp": {
+      "command": "/absolute/path/to/todo-mcp"
     }
   }
 }
@@ -47,14 +47,6 @@ Restart the client. The tools listed below will be available to the agent.
 ---
 
 ## Tools
-
-### `ping`
-
-Check that the server is reachable.
-
-No parameters. Returns `"pong"`.
-
----
 
 ### `list_create`
 
@@ -123,14 +115,14 @@ Permanently delete a todo.
 
 ## CLI Wrapper with mcporter
 
-mcporter wraps any stdio MCP server and exposes its tools as shell subcommands. This lets you call crane-mcp tools directly from the terminal without an AI agent in the loop.
+mcporter wraps any stdio MCP server and exposes its tools as shell subcommands. This lets you call todo-mcp tools directly from the terminal without an AI agent in the loop.
 
-Install mcporter following the instructions in its repository, then wrap the crane-mcp binary:
+Install mcporter following the instructions in its repository, then wrap the todo-mcp binary:
 
 ```sh
-mcporter --server ./target/release/crane-mcp todo_list
-mcporter --server ./target/release/crane-mcp todo_create --title "write tests"
-mcporter --server ./target/release/crane-mcp todo_complete --id 1
+mcporter --server ./target/release/todo-mcp todo_list
+mcporter --server ./target/release/todo-mcp todo_create --title "write tests"
+mcporter --server ./target/release/todo-mcp todo_complete --id 1
 ```
 
 mcporter starts the server process, sends the tool call over stdio using the MCP protocol, prints the response, and exits. No persistent process or separate client needed.
@@ -138,7 +130,7 @@ mcporter starts the server process, sends the tool call over stdio using the MCP
 To avoid typing the server path each time, set an alias:
 
 ```sh
-alias todos='mcporter --server /absolute/path/to/crane-mcp'
+alias todos='mcporter --server /absolute/path/to/todo-mcp'
 ```
 
 Then use it as:

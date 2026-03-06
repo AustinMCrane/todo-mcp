@@ -76,11 +76,6 @@ impl CraneMcp {
 
 #[tool_router]
 impl CraneMcp {
-    #[tool(description = "Ping the server to check connectivity")]
-    async fn ping(&self) -> String {
-        "pong".to_string()
-    }
-
     // ── List tools ────────────────────────────────────────────────────────────
 
     #[tool(description = "Create a new list (e.g. Today, Inbox, Tomorrow)")]
@@ -191,7 +186,7 @@ impl CraneMcp {
 impl ServerHandler for CraneMcp {
     fn get_info(&self) -> ServerInfo {
         ServerInfo::new(ServerCapabilities::builder().enable_tools().build())
-            .with_server_info(Implementation::new("crane-mcp", "0.1.0"))
+            .with_server_info(Implementation::new("todo-mcp", "0.1.0"))
     }
 }
 
