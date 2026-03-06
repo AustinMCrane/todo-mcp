@@ -22,7 +22,7 @@ pub struct TodoDb {
 }
 
 impl TodoDb {
-    /// Opens (or creates) the database at ~/.crane-mcp/todos.db.
+    /// Opens (or creates) the database at ~/.todo-mcp/todos.db.
     pub fn open() -> Result<Self> {
         let path = db_path();
         if let Some(dir) = path.parent() {
@@ -151,6 +151,6 @@ impl TodoDb {
 fn db_path() -> PathBuf {
     dirs::home_dir()
         .unwrap_or_else(|| PathBuf::from("."))
-        .join(".crane-mcp")
+        .join(".todo-mcp")
         .join("todos.db")
 }

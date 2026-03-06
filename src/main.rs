@@ -76,14 +76,9 @@ impl CraneMcp {
 
 #[tool_router]
 impl CraneMcp {
-    #[tool(description = "Ping the server to check connectivity")]
-    async fn ping(&self) -> String {
-        "pong".to_string()
-    }
-
     // ── List tools ────────────────────────────────────────────────────────────
 
-    #[tool(description = "Create a new list (e.g. Today, Inbox, Tomorrow)")]
+    #[tool(name = "create_list", description = "Create a new list (e.g. Today, Inbox, Tomorrow)")]
     async fn list_create(&self, Parameters(p): Parameters<CreateListParams>) -> String {
         match self.todo_db.lock().unwrap().create_list(&p.title) {
             Ok(id) => format!("Created list #{id}: {}", p.title),
@@ -106,7 +101,7 @@ impl CraneMcp {
 
     // ── Todo tools ────────────────────────────────────────────────────────────
 
-    #[tool(description = "Create a new todo item, optionally in a list (by title or id)")]
+    #[tool(name = "create", description = "Create a new todo item, optionally in a list (by title or id)")]
     async fn todo_create(&self, Parameters(p): Parameters<CreateTodoParams>) -> String {
         let db = self.todo_db.lock().unwrap();
         let list_id = match p.list.as_deref() {
@@ -125,7 +120,7 @@ impl CraneMcp {
         }
     }
 
-    #[tool(description = "List todos, optionally filtered by list title or id")]
+    #[tool(name = "list", description = "List todos, optionally filtered by list title or id")]
     async fn todo_list(&self, Parameters(p): Parameters<ListTodosParams>) -> String {
         let db = self.todo_db.lock().unwrap();
         let list_id = match p.list.as_deref() {
@@ -168,7 +163,7 @@ impl CraneMcp {
         }
     }
 
-    #[tool(description = "Mark a todo as completed by its id")]
+    #[tool(name = "complete", description = "Mark a todo as completed by its id")]
     async fn todo_complete(&self, Parameters(p): Parameters<TodoIdParams>) -> String {
         match self.todo_db.lock().unwrap().complete(p.id) {
             Ok(true) => format!("Todo #{} marked as completed.", p.id),
@@ -177,7 +172,7 @@ impl CraneMcp {
         }
     }
 
-    #[tool(description = "Permanently delete a todo by its id")]
+    #[tool(name = "delete", description = "Permanently delete a todo by its id")]
     async fn todo_delete(&self, Parameters(p): Parameters<TodoIdParams>) -> String {
         match self.todo_db.lock().unwrap().delete(p.id) {
             Ok(true) => format!("Todo #{} deleted.", p.id),
@@ -191,7 +186,7 @@ impl CraneMcp {
 impl ServerHandler for CraneMcp {
     fn get_info(&self) -> ServerInfo {
         ServerInfo::new(ServerCapabilities::builder().enable_tools().build())
-            .with_server_info(Implementation::new("crane-mcp", "0.1.0"))
+            .with_server_info(Implementation::new("todo-mcp", "0.1.0"))
     }
 }
 
