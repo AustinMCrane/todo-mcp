@@ -68,7 +68,7 @@ No parameters. Returns each list as `#id - title`.
 
 ---
 
-### `todo_create`
+### `create`
 
 Create a todo item, optionally placed in a list.
 
@@ -81,7 +81,7 @@ Returns the created todo id and title.
 
 ---
 
-### `todo_list`
+### `list`
 
 List todos. Returns all todos by default, grouped by list.
 
@@ -93,7 +93,7 @@ Each todo shows its id, completion status, and title.
 
 ---
 
-### `todo_complete`
+### `complete`
 
 Mark a todo as completed.
 
@@ -103,40 +103,10 @@ Mark a todo as completed.
 
 ---
 
-### `todo_delete`
+### `delete`
 
 Permanently delete a todo.
 
 | Parameter | Type    | Required | Description        |
 |-----------|---------|----------|--------------------|
 | `id`      | integer | yes      | Id of the todo     |
-
----
-
-## CLI Wrapper with mcporter
-
-mcporter wraps any stdio MCP server and exposes its tools as shell subcommands. This lets you call todo-mcp tools directly from the terminal without an AI agent in the loop.
-
-Install mcporter following the instructions in its repository, then wrap the todo-mcp binary:
-
-```sh
-mcporter --server ./target/release/todo-mcp todo_list
-mcporter --server ./target/release/todo-mcp todo_create --title "write tests"
-mcporter --server ./target/release/todo-mcp todo_complete --id 1
-```
-
-mcporter starts the server process, sends the tool call over stdio using the MCP protocol, prints the response, and exits. No persistent process or separate client needed.
-
-To avoid typing the server path each time, set an alias:
-
-```sh
-alias todos='mcporter --server /absolute/path/to/todo-mcp'
-```
-
-Then use it as:
-
-```sh
-todos todo_list
-todos todo_create --title "review PR"
-todos list_all
-```

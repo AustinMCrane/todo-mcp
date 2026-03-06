@@ -101,7 +101,7 @@ impl CraneMcp {
 
     // ── Todo tools ────────────────────────────────────────────────────────────
 
-    #[tool(description = "Create a new todo item, optionally in a list (by title or id)")]
+    #[tool(name = "create", description = "Create a new todo item, optionally in a list (by title or id)")]
     async fn todo_create(&self, Parameters(p): Parameters<CreateTodoParams>) -> String {
         let db = self.todo_db.lock().unwrap();
         let list_id = match p.list.as_deref() {
@@ -120,7 +120,7 @@ impl CraneMcp {
         }
     }
 
-    #[tool(description = "List todos, optionally filtered by list title or id")]
+    #[tool(name = "list", description = "List todos, optionally filtered by list title or id")]
     async fn todo_list(&self, Parameters(p): Parameters<ListTodosParams>) -> String {
         let db = self.todo_db.lock().unwrap();
         let list_id = match p.list.as_deref() {
@@ -163,7 +163,7 @@ impl CraneMcp {
         }
     }
 
-    #[tool(description = "Mark a todo as completed by its id")]
+    #[tool(name = "complete", description = "Mark a todo as completed by its id")]
     async fn todo_complete(&self, Parameters(p): Parameters<TodoIdParams>) -> String {
         match self.todo_db.lock().unwrap().complete(p.id) {
             Ok(true) => format!("Todo #{} marked as completed.", p.id),
@@ -172,7 +172,7 @@ impl CraneMcp {
         }
     }
 
-    #[tool(description = "Permanently delete a todo by its id")]
+    #[tool(name = "delete", description = "Permanently delete a todo by its id")]
     async fn todo_delete(&self, Parameters(p): Parameters<TodoIdParams>) -> String {
         match self.todo_db.lock().unwrap().delete(p.id) {
             Ok(true) => format!("Todo #{} deleted.", p.id),
